@@ -89,11 +89,25 @@ img {
   background: none;
   padding: 0;
   margin: 0;
+  cursor: pointer;
+
+  :hover {
+    opacity: 0.7;
+  }
+
+  :active {
+    opacity: 0.5;
+  }
 
   svg {
     width: 32px;
     height: 32px;
     margin-top: 4px;
+
+    :hover {
+      opacity: 1;
+      background-color: blue;
+    }
   }
 }
 
@@ -105,6 +119,7 @@ img {
   background: linear-gradient(102.42deg, #da15b8 59.69%, #8d06cc);
   color: #fff;
   font-weight: bold;
+  cursor: pointer;
 
   &:hover {
     background: var(--key-color-dark);
