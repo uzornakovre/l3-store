@@ -25,6 +25,18 @@
     }
   }
 
+  &__link {
+    position: relative;
+  }
+
+  .favorites {
+    visibility: visible;
+
+    &_invisible {
+      visibility: hidden;
+    }
+  }
+
   .logo {
     color: #fff;
   }

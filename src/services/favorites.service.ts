@@ -40,9 +40,14 @@ class FavoritesService {
   private async _updCounters() {
     const products = await this.get();
     const count = products.length >= 10 ? '9+' : products.length;
+    const favHeaderBtn = document.querySelector('.favorites');
 
     //@ts-ignore
     document.querySelectorAll('.js__favs-counter').forEach(($el: HTMLElement) => ($el.innerText = String(count || '')));
+
+    if ((await this.get()).length === 0) {
+      favHeaderBtn?.classList.add('favorites_invisible');
+    } else favHeaderBtn?.classList.remove('favorites_invisible');
   }
 }
 
