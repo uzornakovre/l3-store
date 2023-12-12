@@ -2,6 +2,7 @@ import { Component } from '../component';
 import html from './catalog.tpl.html';
 
 import { ProductList } from '../productList/productList';
+import localforage from 'localforage';
 
 class Catalog extends Component {
   productList: ProductList;
@@ -14,9 +15,17 @@ class Catalog extends Component {
   }
 
   async render() {
-    const productsResp = await fetch('/api/getProducts');
-    const products = await productsResp.json();
-    this.productList.update(products);
+    localforage.getItem('__wb-userId').then((id) => {
+      fetch('/api/getProducts', {
+        headers: {
+          UserId: id as string
+        }
+      })
+        .then((res) => res.json())
+        .then((products) => {
+          this.productList.update(products);
+        });
+    });
   }
 }
 
