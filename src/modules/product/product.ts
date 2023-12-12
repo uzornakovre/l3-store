@@ -3,7 +3,7 @@ import { View } from '../../utils/view';
 import { formatPrice } from '../../utils/helpers';
 import html from './product.tpl.html';
 import { ProductData } from 'types';
-import { isInViewport, sendEvent } from '../../utils/analytics';
+// import { isInViewport, sendEvent } from '../../utils/analytics';
 
 type ProductComponentParams = { [key: string]: any };
 
@@ -11,7 +11,7 @@ export class Product {
   view: View;
   product: ProductData;
   params: ProductComponentParams;
-  secretKey: string | null = null;
+  // secretKey: string | null = null;
 
   constructor(product: ProductData, params: ProductComponentParams = {}) {
     this.product = product;
@@ -32,23 +32,5 @@ export class Product {
     this.view.price.innerText = formatPrice(salePriceU);
 
     if (this.params.isHorizontal) this.view.root.classList.add('is__horizontal');
-
-    const sendViewCardEvent = async () => {
-      if (isInViewport(this.view.root)) {
-        sendEvent(this.product.log.promotion ? 'viewCardPromo' : 'viewCard', {
-          ...this.product,
-          secretKey: this.secretKey
-        });
-
-        document.removeEventListener('scroll', sendViewCardEvent);
-      }
-    };
-
-    fetch(`/api/getProductSecretKey?id=${id}`)
-      .then((res) => res.json())
-      .then((secretKey) => {
-        this.secretKey = secretKey;
-        document.addEventListener('scroll', sendViewCardEvent);
-      });
   }
 }
