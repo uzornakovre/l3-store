@@ -62,9 +62,9 @@ export type TEventType = 'route' | 'viewCard' | 'viewCardPromo' | 'addToCart' | 
 export type TEventPayload =
   | {
       url?: string;
-      secretKey?: string;
       orderId?: string;
       totalPrice?: number;
       productIds?: Array<number>;
     }
-  | (ProductData | undefined);
+  | ProductData
+  | (ProductData & { secretKey: string | null });
