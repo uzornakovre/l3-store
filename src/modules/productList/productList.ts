@@ -50,7 +50,8 @@ export class ProductList {
         .then((key) => {
           secretKey = key;
           document.addEventListener('scroll', sendViewCardEvent);
-        });
+        })
+        .then(() => sendViewCardEvent());
     });
   }
 }
