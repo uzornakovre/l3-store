@@ -4,6 +4,7 @@ import { formatPrice } from '../../utils/helpers';
 import { ProductData } from 'types';
 import html from './productDetail.tpl.html';
 import { cartService } from '../../services/cart.service';
+import localforage from 'localforage';
 
 class ProductDetail extends Component {
   more: ProductList;
@@ -43,11 +44,17 @@ class ProductDetail extends Component {
         this.view.secretKey.setAttribute('content', secretKey);
       });
 
-    fetch('/api/getPopularProducts')
-      .then((res) => res.json())
-      .then((products) => {
-        this.more.update(products);
-      });
+    localforage.getItem('__wb-userId').then((id) => {
+      fetch('/api/getPopularProducts', {
+        headers: {
+          UserID: id as string
+        }
+      })
+        .then((res) => res.json())
+        .then((products) => {
+          this.more.update(products);
+        });
+    });
   }
 
   private _addToCart() {

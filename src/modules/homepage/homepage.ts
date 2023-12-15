@@ -3,6 +3,7 @@ import { Component } from '../component';
 import html from './homepage.tpl.html';
 
 import { ProductList } from '../productList/productList';
+import localforage from 'localforage';
 
 class Homepage extends Component {
   popularProducts: ProductList;
@@ -15,11 +16,17 @@ class Homepage extends Component {
   }
 
   render() {
-    fetch('/api/getPopularProducts')
-      .then((res) => res.json())
-      .then((products) => {
-        this.popularProducts.update(products);
-      });
+    localforage.getItem('__wb-userId').then((id) => {
+      fetch('/api/getPopularProducts', {
+        headers: {
+          UserID: id as string
+        }
+      })
+        .then((res) => res.json())
+        .then((products) => {
+          this.popularProducts.update(products);
+        });
+    });
 
     const isSuccessOrder = new URLSearchParams(window.location.search).get('isSuccessOrder');
     if (isSuccessOrder != null) {
