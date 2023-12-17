@@ -3,14 +3,12 @@ import { notFoundComp } from './modules/notFound/notFound';
 import { homepageComp } from './modules/homepage/homepage';
 import { productDetailComp } from './modules/productDetail/productDetail';
 import { checkoutComp } from './modules/checkout/checkout';
-import { searchTipsComp } from './modules/searchTips/searchTips';
 
 const ROUTES = {
   '/': homepageComp,
   '/catalog': catalogComp,
   '/product': productDetailComp,
-  '/checkout': checkoutComp,
-  '/search': searchTipsComp // временный маршрут для тестирования search tips
+  '/checkout': checkoutComp
 };
 
 export default class Router {

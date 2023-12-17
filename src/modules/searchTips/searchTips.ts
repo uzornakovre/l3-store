@@ -15,6 +15,10 @@ export class SearchTips extends Component {
     this.randomPopularTags = this._getPopularTags(this.tipsCount, this.tagsArray);
   }
 
+  attach($root: HTMLElement) {
+    $root.appendChild(this.view.root);
+  }
+
   _getPopularTags(count: number, tagsArray: Array<string>) {
     let newArr: Array<string> = [];
 
