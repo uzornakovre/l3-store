@@ -3,6 +3,7 @@ import { View } from '../../utils/view';
 import html from './productList.tpl.html';
 import { ProductData } from 'types';
 import { Product } from '../product/product';
+import { isInViewport, sendEvent } from '../../utils/analytics';
 
 export class ProductList {
   view: View;
@@ -28,8 +29,22 @@ export class ProductList {
 
     this.products.forEach((product) => {
       const productComp = new Product(product);
+
       productComp.render();
       productComp.attach(this.view.root);
+
+      const sendViewCardEvent = async () => {
+        if (isInViewport(productComp.view.root)) {
+          sendEvent(product.log.promotion ? 'viewCardPromo' : 'viewCard', {
+            ...product
+          });
+
+          document.removeEventListener('scroll', sendViewCardEvent);
+        }
+      };
+
+      document.addEventListener('scroll', sendViewCardEvent);
+      sendViewCardEvent();
     });
   }
 }
