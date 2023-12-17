@@ -29,7 +29,6 @@ export class ProductList {
 
     this.products.forEach((product) => {
       const productComp = new Product(product);
-      let secretKey: string | null = null;
 
       productComp.render();
       productComp.attach(this.view.root);
@@ -37,21 +36,15 @@ export class ProductList {
       const sendViewCardEvent = async () => {
         if (isInViewport(productComp.view.root)) {
           sendEvent(product.log.promotion ? 'viewCardPromo' : 'viewCard', {
-            ...product,
-            secretKey: secretKey
+            ...product
           });
 
           document.removeEventListener('scroll', sendViewCardEvent);
         }
       };
 
-      fetch(`/api/getProductSecretKey?id=${product.id}`)
-        .then((res) => res.json())
-        .then((key) => {
-          secretKey = key;
-          document.addEventListener('scroll', sendViewCardEvent);
-        })
-        .then(() => sendViewCardEvent());
+      document.addEventListener('scroll', sendViewCardEvent);
+      sendViewCardEvent();
     });
   }
 }

@@ -66,5 +66,4 @@ export type TEventPayload =
       totalPrice?: number;
       productIds?: Array<number>;
     }
-  | ProductData
-  | (ProductData & { secretKey: string | null });
+  | ProductData;
